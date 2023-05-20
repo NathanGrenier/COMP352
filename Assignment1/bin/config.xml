@@ -1,0 +1,12 @@
+<config>
+	<test driver="comp352.assignment.one.RecursiveFibonacciTracker" method="main" label="Check Fib Sequence">
+		<args>11</args>
+
+		<mark grade="10">
+			<check label="sequence"><regex>1 1 1 1 1 4 4 7 10 19 25</regex></check>
+		</mark>
+		<mark grade="10">
+			<check label="metadata"><regex>Calls: 68</regex></check>
+		</mark>
+	</test>
+</config>
