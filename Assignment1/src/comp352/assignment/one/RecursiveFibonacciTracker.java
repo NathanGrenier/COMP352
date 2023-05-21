@@ -18,6 +18,20 @@ public class RecursiveFibonacciTracker {
         return fib(n-2) + fib(n-3) + (2 * fib(n-4));
     }
 
+    static long fibWithPrint(int n) {
+        long result;
+        calls++;
+        if (n == 1) {
+            result = 1;
+        } else if (n <= 5) {
+            result = fibWithPrint(n-1);
+        } else {
+            result = fibWithPrint(n-2) + fibWithPrint(n-3) + (2 * fibWithPrint(n-4));
+        }
+        System.out.print(result + " ");
+        return result;
+    }
+
     public static void main(String[] args){
         if (args.length != 1) {
             System.out.println("Enter only 1 argument.");
@@ -25,7 +39,7 @@ public class RecursiveFibonacciTracker {
         }
 
         int length = Integer.parseInt(args[0]);
-        if (length == 0) {
+        if (length < 0) {
             System.out.println("Value passed must be greater than 0.");
             System.exit(0);
         }
