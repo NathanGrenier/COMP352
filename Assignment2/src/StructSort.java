@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StructSort {
+    static orderType sortType = orderType.DECR;
     static int DECR_count_len2 = 0;
     static int reversal_count = 0;
     static int structuring_compares = 0;
@@ -14,29 +15,76 @@ public class StructSort {
         INCR;
     }
     
-    static void reverseOrder(Integer[] nums, int start, int end) {
+    static void swap(Integer[] nums, int firstIndex, int secondIndex) {
+        swaps++; // Increment the swap count
+        int temp = nums[firstIndex];
+        nums[firstIndex] = nums[secondIndex];
+        nums[secondIndex] = temp;
+    }
 
+    static void insertSort_decending(Integer[] nums, orderType sortType) {
+        if (sortType == orderType.DECR) {
+            for (int i=0; i < nums.length; i++) {
+                for (int j=i+1; j < nums.length; j++) {
+                    compares++;
+                    if (nums[j] > nums[i]) {
+                        swap(nums, i, j);
+                    }
+                }
+            }
+        } else if (sortType == orderType.INCR) {
+            for (int i=0; i < nums.length; i++) {
+                for (int j=i+1; j < nums.length; j++) {
+                    compares++;
+                    if (nums[j] < nums[i]) {
+                        swap(nums, i, j);
+                    }
+                }
+            }
+        }
+    }
+
+    static void reverseOrder(Integer[] nums, int startIndex, int endIndex) {
+        reversal_count++;   // Increment the reversal count
+        for (int i=startIndex; i <= endIndex / 2; i++) {
+            swap(nums, i, endIndex - i);
+        }
     }
 
     static void structPass(Integer[] nums) {
         int start = 0;
-        int end;
+        int end = 0;
         orderType order = null;
         if (nums.length == 1) {
             return;
         }
 
-        for (int i=0; i < nums.length; i++) {
-            if (nums[i] > nums[i+1]) {
+        // Question: Do I perform 2 comparisons? What should I do if the values are equal?
+        for (int i=0; i < nums.length - 1; i++) {
+            compares++;
+            structuring_compares++;
+            if (nums[i+1] < nums[i]) {
                 if (order == orderType.DECR || order == null) {
                     end = i + 1;
+                    if (((end - start) + 1) == 2) {DECR_count_len2++;}
                 } else {
-                    order = orderType.INCR;
+                    reverseOrder(nums, start, end);
                     start = i + 1;
                     end = i + 1;
+                    order = null;
+                    continue;
                 }
-            } else if (nums[i] < nums[i+1]) {
-
+                order = orderType.DECR;
+            } else if (nums[i+1] > nums[i]) {
+                if (order == orderType.INCR || order == null) {
+                    end = i + 1;
+                } else {
+                    start = i + 1;
+                    end = i + 1;
+                    order = null;
+                    continue;
+                }
+                order = orderType.INCR;
             } else {
                 end = i + 1;
             }
@@ -54,7 +102,7 @@ public class StructSort {
         try {
             read = new Scanner(new FileInputStream(inputFile));
         } catch (FileNotFoundException e) {
-            System.out.println("Incorrect file name.");
+            System.out.printf("Incorrect file name: %s\n", inputFile);
             System.exit(0);
         }
 
@@ -69,6 +117,18 @@ public class StructSort {
         }
         System.out.println();
 
+        structPass(nums);
+        insertSort_decending(nums, sortType);
 
+        System.out.printf("We sorted in %s order\n", sortType);
+        System.out.printf("We counted %d DECR runs of length 2\n", DECR_count_len2);
+        System.out.printf("We performed %d reversals of runs in %s order\n", reversal_count, sortType);
+        System.out.printf("We performed %d compares during structuring\n", structuring_compares);
+        System.out.printf("We performed %d compares overall\n", compares);
+        System.out.printf("We performed %d swaps overall\n", swaps);
+        for (int num : nums) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
     }
 }
