@@ -46,8 +46,8 @@ public class StructSort {
 
     static void reverseOrder(Integer[] nums, int startIndex, int endIndex) {
         reversal_count++;   // Increment the reversal count
-        for (int i=startIndex; i <= endIndex / 2; i++) {
-            swap(nums, i, endIndex - i);
+        for (int i=startIndex; i < endIndex - ((endIndex - startIndex) / 2); i++) {
+            swap(nums, i, endIndex - (i - startIndex));
         }
     }
 
@@ -66,7 +66,7 @@ public class StructSort {
             if (nums[i+1] < nums[i]) {
                 if (order == orderType.DECR || order == null) {
                     end = i + 1;
-                } else {
+                } else {    // Going from INCR run to DECR run
                     start = i + 1;
                     end = i + 1;
                     order = null;
@@ -76,8 +76,9 @@ public class StructSort {
             } else if (nums[i+1] > nums[i]) {
                 if (order == orderType.INCR || order == null) {
                     end = i + 1;
-                } else {
+                } else {    // Going from DECR to INCR
                     if (((end - start) + 1) == 2) {DECR_count_len2++;}
+                    //System.out.println("start="+start+" end="+end);
                     reverseOrder(nums, start, end);
                     start = i + 1;
                     end = i + 1;
