@@ -66,9 +66,7 @@ public class StructSort {
             if (nums[i+1] < nums[i]) {
                 if (order == orderType.DECR || order == null) {
                     end = i + 1;
-                    if (((end - start) + 1) == 2) {DECR_count_len2++;}
                 } else {
-                    reverseOrder(nums, start, end);
                     start = i + 1;
                     end = i + 1;
                     order = null;
@@ -79,6 +77,8 @@ public class StructSort {
                 if (order == orderType.INCR || order == null) {
                     end = i + 1;
                 } else {
+                    if (((end - start) + 1) == 2) {DECR_count_len2++;}
+                    reverseOrder(nums, start, end);
                     start = i + 1;
                     end = i + 1;
                     order = null;
@@ -118,6 +118,11 @@ public class StructSort {
         System.out.println();
 
         structPass(nums);
+        for (int num : nums) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+
         insertSort_decending(nums, sortType);
 
         System.out.printf("We sorted in %s order\n", sortType);
