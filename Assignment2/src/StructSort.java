@@ -22,23 +22,30 @@ public class StructSort {
         nums[secondIndex] = temp;
     }
 
-    static void insertSort_decending(Integer[] nums, orderType sortType) {
+    static void insertSort(Integer[] nums, orderType sortType) {
+        boolean firstIter;
         if (sortType == orderType.DECR) {
-            for (int i=0; i < nums.length; i++) {
-                for (int j=i+1; j < nums.length; j++) {
+            for (int i=1; i < nums.length; i++) {
+                firstIter = true;
+                for (int j=i; j > 0 && firstIter; j--) {
                     compares++;
-                    if (nums[j] > nums[i]) {
-                        swap(nums, i, j);
+                    if (nums[j-1] < nums[j]) {
+                        swap(nums, j, j-1);
+                        continue;
                     }
+                    firstIter = false;
                 }
             }
         } else if (sortType == orderType.INCR) {
-            for (int i=0; i < nums.length; i++) {
-                for (int j=i+1; j < nums.length; j++) {
+            for (int i=1; i < nums.length; i++) {
+                firstIter = true;
+                for (int j=i; j > 0 && firstIter; j--) {
                     compares++;
-                    if (nums[j] < nums[i]) {
-                        swap(nums, i, j);
+                    if (nums[j-1] > nums[j]) {
+                        swap(nums, j, j-1);
+                        continue;
                     }
+                    firstIter = false;
                 }
             }
         }
@@ -124,7 +131,7 @@ public class StructSort {
         }
         System.out.println();
 
-        insertSort_decending(nums, sortType);
+        insertSort(nums, sortType);
 
         System.out.printf("We sorted in %s order\n", sortType);
         System.out.printf("We counted %d DECR runs of length 2\n", DECR_count_len2);

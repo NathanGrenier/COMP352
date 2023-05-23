@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "StructSort",
+            "request": "launch",
+            "mainClass": "StructSort",
+            "projectName": "Assignment2_f642ed2c"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}",
@@ -16,7 +23,7 @@
             "name": "StructSort",
             "request": "launch",
             "mainClass": "StructSort",
-            "projectName": "Assignment2_4c02fb27",
+            "projectName": "Assignment2_4c02fb27"
         }
     ]
 }
