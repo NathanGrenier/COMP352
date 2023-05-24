@@ -63,9 +63,6 @@ public class StructSort {
         int start = 0;
         int end = 0;
         orderType order = null;
-        if (nums.length == 1) {
-            return;
-        }
 
         for (int i=0; i < nums.length - 1; i++) {
             compares++;
