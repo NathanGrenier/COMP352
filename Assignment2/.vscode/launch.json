@@ -8,6 +8,14 @@
             "type": "java",
             "name": "StructSort",
             "request": "launch",
+            "mainClass": "ca.concordia.algorithms.StructSort",
+            "projectName": "Assignment2_4c02fb27",
+            "args": "D:/Concordia/COMP352/Assignment2/bin/inputs1.txt"
+        },
+        {
+            "type": "java",
+            "name": "StructSort",
+            "request": "launch",
             "mainClass": "StructSort",
             "projectName": "Assignment2_f642ed2c"
         },

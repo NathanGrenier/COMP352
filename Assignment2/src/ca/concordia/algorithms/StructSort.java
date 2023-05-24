@@ -67,36 +67,27 @@ public class StructSort {
             return;
         }
 
-        // Question: Do I perform 2 comparisons? What should I do if the values are equal?
         for (int i=0; i < nums.length - 1; i++) {
             compares++;
             structuring_compares++;
             if (nums[i+1] < nums[i]) {
-                if (order == orderType.DECR || order == null) {
-                    end = i + 1;
-                } else {    // Going from INCR run to DECR run
+                if (order != orderType.DECR && order != null) { // Going from INCR run to DECR run (i.e End of INCR run)
                     start = i + 1;
-                    end = i + 1;
                     order = null;
                     continue;
                 }
                 order = orderType.DECR;
-            } else if (nums[i+1] > nums[i]) {
-                if (order == orderType.INCR || order == null) {
-                    end = i + 1;
-                } else {    // Going from DECR to INCR
+            } else {
+                if (order != orderType.INCR && order != null) { // Going from DECR to INCR (i.e End of DECR run)
                     if (((end - start) + 1) == 2) {DECR_count_len2++;}
-                    //System.out.println("start="+start+" end="+end);
                     reverseOrder(nums, start, end);
                     start = i + 1;
-                    end = i + 1;
                     order = null;
                     continue;
                 }
                 order = orderType.INCR;
-            } else {
-                end = i + 1;
             }
+            end = i + 1;
         }
     }
 
