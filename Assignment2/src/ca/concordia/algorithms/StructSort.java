@@ -1,3 +1,4 @@
+package ca.concordia.algorithms;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -119,6 +120,7 @@ public class StructSort {
             nums_arrayList.add(read.nextInt());
         }
         Integer[] nums = new Integer[nums_arrayList.size()]; 
+        
         nums = nums_arrayList.toArray(nums);
         for (int num : nums) {
             System.out.print(num + " ");
@@ -126,10 +128,10 @@ public class StructSort {
         System.out.println();
 
         structPass(nums);
-        for (int num : nums) {
-            System.out.print(num + " ");
-        }
-        System.out.println();
+        // for (int num : nums) {
+        //     System.out.print(num + " ");
+        // }
+        // System.out.println(" | After Pre-Process");
 
         insertSort(nums, sortType);
 
