@@ -4,6 +4,19 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/*
+ * Q2: How did the structuring pass you performed, specifically the reversals chosen, affect swaps and comparisons? Was anything else affected?
+ * A2: 
+ * 
+ * Q3: How do you feel the size of the specific runs you recorded (DESCENDING order of length 2) impacted
+performance?
+ * A3: 
+ * 
+ * Q4: What would implementing this as a Doubly Linked List do? How would the specified structuring affect
+results?
+ * A4: 
+ */
+
 public class StructSort {
     static orderType sortType = orderType.DECR;
     static int DECR_count_len2 = 0;
