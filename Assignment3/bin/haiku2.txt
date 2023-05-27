@@ -1,0 +1,3 @@
+recursive descent
+navigating tree branches
+data discovered
