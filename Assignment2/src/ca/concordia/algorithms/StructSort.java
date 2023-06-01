@@ -14,7 +14,7 @@ performance?
  * 
  * Q4: What would implementing this as a Doubly Linked List do? How would the specified structuring affect
 results?
- * A4: A doubly linked list would take up more memory than an array, needing 2 pointers to and from each node. If you wanted to swap 2 nodes, the process would be much more tedious. You would need to swap all the pointers affected by the change (~6 pointers). You could also opt to swap the node by simply swapping the value in the nodes. This change wouldn't affect performance in a positive way compared to an array because they would simply be doing the same thing (in the best case without the pointer swap). The specified structuring would still harm the results as the linked list would be transformed into a state that is farther from its sorted state. 
+ * A4: A doubly linked list would take up more memory than an array, needing 2 pointers to and from each node. If you wanted to swap 2 nodes, the process would be much more tedious. You would need to swap all the pointers affected by the change (~6 pointers). You could also opt to swap the node by simply swapping the value in the nodes. This change wouldn't affect performance in a positive way compared to an array because they would simply be doing the same thing (in the best case without the pointer swap). The specified structuring would still harm the results as the linked list would be transformed into a state that is farther from its sorted state. The reversals with a doubly linked list would be slower as we wouldn't be able to index the opposite elements to be swapped directly, we would have to traverse the list instead.
  */
 
 public class StructSort {
