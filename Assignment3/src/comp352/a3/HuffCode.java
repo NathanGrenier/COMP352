@@ -1,4 +1,14 @@
 package comp352.a3;
+/*
+ * Q1: What is the purpose of using a priority queue in Huffman coding, and how does it help to generate an optimal code?
+ * A1: 
+ * 
+ * Q2: How does the length of a Huffman code relate to the frequency of the corresponding symbol, and why is this useful for data compression?
+ * A2: 
+ * 
+ * Q3: What is the time complexity of building a Huffman code, and how can you optimize it?
+ * A3: 
+ */
 
 import java.util.Scanner;
 
