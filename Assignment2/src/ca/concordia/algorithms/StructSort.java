@@ -6,15 +6,15 @@ import java.util.Scanner;
 
 /*
  * Q2: How did the structuring pass you performed, specifically the reversals chosen, affect swaps and comparisons? Was anything else affected?
- * A2: 
+ * A2: Since we want the final array to be in DECR order, reversing the runs that are already in DECR order reduces the efficiency by increasing the number of comparisons and swaps needed to order the array. Since the largest int values are now farther away from the beginning of the array, more swaps and comparisons will be needed to shift them over to their proper position.
  * 
  * Q3: How do you feel the size of the specific runs you recorded (DESCENDING order of length 2) impacted
 performance?
- * A3: 
+ * A3: The result of swapping the DECR runs of size 2 (which takes 1 swap) is that we will need to re-swap it later to get it in DECR order. If we implemented a structuring pass that was beneficial, we would gain the most out of reversing runs of the longest length as they would allow us to perform half the number of swaps (in a run, each number has a counterpart on the opposite end. You skip all the values in between and swap these directly).  
  * 
  * Q4: What would implementing this as a Doubly Linked List do? How would the specified structuring affect
 results?
- * A4: 
+ * A4: A doubly linked list would take up more memory than an array, needing 2 pointers to and from each node. If you wanted to swap 2 nodes, the process would be much more tedious. You would need to swap all the pointers affected by the change (~6 pointers). You could also opt to swap the node by simply swapping the value in the nodes. This change wouldn't affect performance in a positive way compared to an array because they would simply be doing the same thing (in the best case without the pointer swap). The specified structuring would still harm the results as the linked list would be transformed into a state that is farther from its sorted state. 
  */
 
 public class StructSort {
