@@ -17,6 +17,8 @@ package comp352.a3;
  * - For counting the frequency of characters, you can also use an array with a max size equal to the total number of ASCII characters (2^8). When you encounter a character, increment the counter in the array at the index equal to the character's ASCII value.   
  */
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class HuffCode {
@@ -24,13 +26,28 @@ public class HuffCode {
         ENCODE,
         DECODE
     }
+    static final int ASCII_CHAR_COUNT = 256;
+
+    long encodedCharacterSet[];
+
+    public HuffCode(PriorityQueue queue) {
+
+    }
+
 
     
-    private class PriorityQueue {
-        
-    }
-    private class Node {
+    private class Node<T> {
+        T value;
+        int frequency;
+        Node left;
+        Node right;
 
+        public Node(T value, int frequency, Node left, Node right) {
+            this.value = value;
+            this.frequency = frequency;
+            this.left = left;
+            this.right = right;
+        }
     }
 
     public static void main(String[] args) {
@@ -48,8 +65,30 @@ public class HuffCode {
             System.exit(1);
         }
 
+        int frequencies[] = new int[ASCII_CHAR_COUNT];
+        
+        Scanner read = null;
+        try {
+            read = new Scanner(new FileInputStream(filename));
+            read.useDelimiter("");  // Read single characters
+        } catch (FileNotFoundException e) {
+            System.out.printf("Error with file %s.\nError: %s\n", filename, e.toString());
+            System.exit(1);
+        }
+        
+        while (read.hasNext()) {
+            char token = Character.toLowerCase(read.next().charAt(0));
+            System.out.println((int) token + " " + token);
+            frequencies[(int) token] += 1;
+        }
 
-        Scanner in = new Scanner(System.in);
-        String input = in.nextLine();
+        // for (int i=0; i < frequencies.length; i++) {
+        //     if (frequencies[i] !=0) {
+        //         System.out.printf("ASCII Value=" + i + " Character=%s" + " Frequency=%d\n", (char) i, frequencies[i]);
+        //     }
+        // }
+
+        // Scanner in = new Scanner(System.in);
+        // String input = in.nextLine();
     }
 }
