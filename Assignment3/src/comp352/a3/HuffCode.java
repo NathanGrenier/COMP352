@@ -8,6 +8,13 @@ package comp352.a3;
  * 
  * Q3: What is the time complexity of building a Huffman code, and how can you optimize it?
  * A3: 
+ * 
+ * Notes: 
+ * - The priority queue can just be a sorted array (insertion sort).
+ * - All the huffman trees were created with the same priority queue initial state config (ASCII ascending)
+ * - When we make the lookup table, use an array with the size of all the ASCII charaters (2^8). Decode the character into its ASCII value and use that as the index to lookup in the array.
+ * - When making the lookup table, do a inorder traversal of the huffman encoding tree. 
+ * - For counting the frequency of characters, you can also use an array with a max size equal to the total number of ASCII characters (2^8). When you encounter a character, increment the counter in the array at the index equal to the character's ASCII value.   
  */
 
 import java.util.Scanner;
@@ -16,6 +23,14 @@ public class HuffCode {
     enum encodeType {
         ENCODE,
         DECODE
+    }
+
+    
+    private class PriorityQueue {
+        
+    }
+    private class Node {
+
     }
 
     public static void main(String[] args) {
