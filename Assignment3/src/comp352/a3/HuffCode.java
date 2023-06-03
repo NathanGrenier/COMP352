@@ -27,44 +27,76 @@ public class HuffCode {
         DECODE
     }
     static final int ASCII_CHAR_COUNT = 256;
+    String encodedCharacterSet[];
+    PriorityQueue queue;
+    Node root;
 
-    long encodedCharacterSet[];
-
-    public HuffCode(PriorityQueue queue) {
-
-    }
-
-
-    
-    private class Node<T> {
-        T value;
-        int frequency;
-        Node left;
-        Node right;
-
-        public Node(T value, int frequency, Node left, Node right) {
-            this.value = value;
-            this.frequency = frequency;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-    public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Expected 2 arguments.");
-            System.exit(1);
+    public HuffCode(int frequencies[], Character values[]) {
+        this.root = null;
+        this.encodedCharacterSet = new String[ASCII_CHAR_COUNT];
+        this.queue = new PriorityQueue(ASCII_CHAR_COUNT);
+        for (int i=0; i < values.length; i++) {
+            if (frequencies[i] != 0) {
+                this.queue.enqueue(new Node(values[i], frequencies[i], null, null));
+            }
         }
         
-        String filename = args[0];
+        this.generateHuffTree();
+        this.generateBinaryCodes(root, "");
+    }
 
-        try {
-            encodeType operation = encodeType.valueOf(args[1].toUpperCase());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid Operation: " + args[1]);
-            System.exit(1);
+    private void generateHuffTree() {
+        if (this.queue.isEmpty()) {
+            System.out.println("Queue is empty.");
+            return;
         }
 
+        while (this.queue.lastIndex != 0) {
+            Node left = this.queue.dequeue();
+            Node right = this.queue.dequeue();
+            this.queue.enqueue(new Node(null, left.frequency + right.frequency, left, right));
+        }
+        this.root = this.queue.dequeue();
+    }
+
+    private void generateBinaryCodes(Node node, String code) {
+        if (node.left == null && node.right == null) {
+            this.encodedCharacterSet[(int) node.value] = code;
+            return;
+        }
+        this.generateBinaryCodes(node.left, code + "0");
+
+        this.generateBinaryCodes(node.right, code + "1");        
+    }
+
+    public String encodeMsg(String msg) {
+        String encodedMsg = "";
+        char[] chars = msg.toCharArray();
+        for (char c:chars) {
+            encodedMsg += this.encodedCharacterSet[(int) c];
+        }
+        return encodedMsg;
+    }
+    
+    public String decodeMsg(String encodedMsg) {
+        String decodedMsg = "";
+        char[] chars = encodedMsg.toCharArray();
+        Node current = this.root;
+        for (char c: chars) {
+            if (c == '0') {
+                current = current.left;
+            } else if (c == '1') {
+                current = current.right;
+            }
+            if (current.value != null) {
+                decodedMsg += current.value;
+                current = this.root;
+            }
+        }
+        return decodedMsg;
+    }
+
+    private static int[] recordFrequencies(String filename) {
         int frequencies[] = new int[ASCII_CHAR_COUNT];
         
         Scanner read = null;
@@ -78,17 +110,44 @@ public class HuffCode {
         
         while (read.hasNext()) {
             char token = Character.toLowerCase(read.next().charAt(0));
-            System.out.println((int) token + " " + token);
             frequencies[(int) token] += 1;
         }
+        return frequencies;
+    }
 
-        // for (int i=0; i < frequencies.length; i++) {
-        //     if (frequencies[i] !=0) {
-        //         System.out.printf("ASCII Value=" + i + " Character=%s" + " Frequency=%d\n", (char) i, frequencies[i]);
-        //     }
-        // }
+    private static Character[] generateASCIICharacters() {
+        Character ASCIICharacters[] = new Character[ASCII_CHAR_COUNT];
+        for (int i=0; i < ASCII_CHAR_COUNT; i++) {
+            ASCIICharacters[i] = (char) i;
+        }
+        return ASCIICharacters;
+    }
+    public static void main(String[] args) {
+        if (args.length != 2) {
+            System.out.println("Expected 2 arguments.");
+            System.exit(1);
+        }
+        
+        String filename = args[0];
+        encodeType operation = null;
+        try {
+            operation = encodeType.valueOf(args[1].toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Operation: " + args[1]);
+            System.exit(1);
+        }
 
-        // Scanner in = new Scanner(System.in);
-        // String input = in.nextLine();
+        int frequencies[] = recordFrequencies(filename);
+
+        HuffCode huffCodeTree = new HuffCode(frequencies, generateASCIICharacters());
+
+        Scanner in = new Scanner(System.in);
+        if (operation == encodeType.ENCODE) {
+            System.out.print("Enter message to encode: ");
+            System.out.println(huffCodeTree.encodeMsg(in.nextLine()));
+        } else if (operation == encodeType.DECODE) {
+            System.out.print("Enter message to decode: ");
+            System.out.println(huffCodeTree.decodeMsg(in.nextLine()));
+        }
     }
 }

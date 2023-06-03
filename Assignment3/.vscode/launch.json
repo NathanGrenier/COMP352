@@ -6,6 +6,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "HuffCode",
+            "request": "launch",
+            "mainClass": "comp352.a3.HuffCode",
+            "projectName": "Assignment3_4c02fb28",
+            "args": ["D:/Concordia/COMP352/Assignment3/src/haiku1.txt", "Encode"]
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

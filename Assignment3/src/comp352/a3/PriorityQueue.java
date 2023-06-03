@@ -1,29 +1,54 @@
 package comp352.a3;
 
-public class PriorityQueue<T> {
-    T frequencies[];
+public class PriorityQueue {
+    Node queue[];
+    int lastIndex;
 
-    public PriorityQueue() {
-
-    }
-
-    public PriorityQueue(T values[]) {
-        for (T e:values) {
-            this.enqueue(e);
-        }
+    public PriorityQueue(int queueMaxSize) {
+        this.lastIndex = -1;
+        this.queue = new Node[queueMaxSize];
     }
     
-    void enqueue(T value) {
-
+    public void enqueue(Node value) {
+        this.lastIndex++;
+        this.queue[this.lastIndex] = value;
+        this.sort();
+    }
+    
+    // Insertion sort
+    public void sort() {
+        for (int i=this.lastIndex; i > 0 && this.queue[i].frequency < this.queue[i-1].frequency; i--) {
+            swap(i, i-1);
+        }
     }
 
-    int peek() {
-        int index = -1; // -1 means no index was found
-        
-        return index;
+    private void swap(int firstIndex, int secondIndex) {
+        Node temp = (Node) this.queue[firstIndex];
+        this.queue[firstIndex] = this.queue[secondIndex];
+        this.queue[secondIndex] = temp;
     }
 
-    T dequeue() {
+    public Node dequeue() {
+        if (this.isEmpty()) {
+            return null;
+        }
+        Node shifted = this.queue[0];
+        this.shift();
+        this.lastIndex--;
+        return shifted;
+    }
 
+    private void shift() {
+        for (int i=1; i <= this.lastIndex; i++) {
+            this.queue[i-1] = this.queue[i];
+        }
+    }
+
+
+    public boolean isEmpty() {
+        if (this.queue == null || this.lastIndex == -1) {
+            return true;
+        }
+        return false;
     }
 }
