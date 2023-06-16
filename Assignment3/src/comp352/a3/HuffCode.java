@@ -1,20 +1,26 @@
 package comp352.a3;
 /*
  * Q1: What is the purpose of using a priority queue in Huffman coding, and how does it help to generate an optimal code?
- * A1: 
+ * A1: In Huffman coding, the purpose of using a priority queue is to efficiently generate an optimal code by assigning shorter codes to more frequently occurring characters or symbols. The priority queue helps in achieving this goal by organizing the characters based on their frequencies, allowing for easy selection of the characters with the lowest frequencies. This results in the nodes with the lowest frequencies being selected first for merging. Because they were selected first, the characters with the lowest frequencies end up near or at the bottom of the Huffman encoding tree.
  * 
  * Q2: How does the length of a Huffman code relate to the frequency of the corresponding symbol, and why is this useful for data compression?
- * A2: 
+ * A2: In general, more frequently occurring symbols are assigned shorter codes, while less frequently occurring symbols are assigned longer codes. By assigning shorter codes to frequently occurring symbols and longer codes to infrequently occurring symbols, Huffman coding effectively reduces the average number of bits required to represent the data.
  * 
  * Q3: What is the time complexity of building a Huffman code, and how can you optimize it?
- * A3: 
+ * A3: The time complexity is affected by multiple steps.
+ *      1. We must first read all the characters in a sample text to determine the frequency of each ASCII character. This takes O(c) time complexity where c is the number of characters in the file.
+ *      2. We then enqueue all of the (character, frequency) nodes. We add n characters to the end of an array O(n). When we enqueue a value, we must sort it. I've implemented insertion sort, which makes n comparisons. Therefore, we make n comparisons for n elements resulting in O(n^2) complexity.
+ *      3. When building the tree, we dequeue 2 nodes, then enqueue the combination of those 2 nodes. We repeat this cycle for all the nodes in the priority queue until we only have 1 left, or n-1 times. Complexity: O(n) [assuming enqueue and dequeue are O(1)], O(n(2n + 1)) = O(n^2) [In the actual implementation, dequeuing results in shifting n elements which costs O(n)].
+ *      4. Inorder traversal to generate the binary codes for the lookup table. O(n) because we visit each node.
+ *      5. Encode String: We just use the lookup table. O(1) on all the characters
+ *      6. Decode String: Iterate over the binary string O(b) where b is the number of binary digits
+ * Optimizations: Using merge sort to sort the priority queue after adding all elements would optimize the Huffman tree generation. Merge sort is O(nlogn) complexity compared to insertion sorts (n^2) while still being algorithmically stable. This would cost us O(n) more space.
  * 
  * Notes: 
  * - The priority queue can just be a sorted array (insertion sort).
- * - All the huffman trees were created with the same priority queue initial state config (ASCII ascending)
- * - When we make the lookup table, use an array with the size of all the ASCII charaters (2^8). Decode the character into its ASCII value and use that as the index to lookup in the array.
- * - When making the lookup table, do a inorder traversal of the huffman encoding tree. 
- * - For counting the frequency of characters, you can also use an array with a max size equal to the total number of ASCII characters (2^8). When you encounter a character, increment the counter in the array at the index equal to the character's ASCII value.   
+ * - All the Huffman trees were created with the same priority queue initial state config (ASCII ascending)
+ * - When making the lookup table, do a inorder traversal of the Huffman encoding tree.
+ * - Implement the queue with 2 pointers, one at each end. When enqueuing or dequeuing, just increment these pointers. This allows for O(1) enqueue and dequeue.
  */
 
 import java.io.FileInputStream;

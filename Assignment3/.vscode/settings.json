@@ -4,4 +4,16 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
     ],
+    "todohighlight.defaultStyle": {
+        
+    },
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext",
+        "java"
+    ],
 }
