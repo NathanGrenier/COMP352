@@ -9,8 +9,8 @@ package comp352.a3;
  * Q3: What is the time complexity of building a Huffman code, and how can you optimize it?
  * A3: The time complexity is affected by multiple steps.
  *      1. We must first read all the characters in a sample text to determine the frequency of each ASCII character. This takes O(c) time complexity where c is the number of characters in the file.
- *      2. We then enqueue all of the (character, frequency) nodes. We add n characters to the end of an array O(n). When we enqueue a value, we must sort it. I've implemented insertion sort, which makes n comparisons. Therefore, we make n comparisons for n elements resulting in O(n^2) complexity.
- *      3. When building the tree, we dequeue 2 nodes, then enqueue the combination of those 2 nodes. We repeat this cycle for all the nodes in the priority queue until we only have 1 left, or n-1 times. Complexity: O(n) [assuming enqueue and dequeue are O(1)], O(n(2n + 1)) = O(n^2) [In the actual implementation, dequeuing results in shifting n elements which costs O(n)].
+ *      2. We then enqueue all of the (character, frequency) nodes. We add n characters to the end of an array, O(n). When we enqueue a value, we must sort it. I've implemented insertion sort, which makes n comparisons. Therefore, we make n comparisons for n elements resulting in O(n^2) complexity.
+ *      3. When building the tree, we dequeue 2 nodes, then enqueue the combination of those 2 nodes. We repeat this cycle for all the nodes in the priority queue until we only have 1 left, or n-1 times. Complexity: O(n) [assuming enqueue and dequeue are O(1)] because O(n(2(1) + 1)) = O(n), where the first 1 is the number of dequeues and the second is enqueues. 
  *      4. Inorder traversal to generate the binary codes for the lookup table. O(n) because we visit each node.
  *      5. Encode String: We just use the lookup table. O(1) on all the characters
  *      6. Decode String: Iterate over the binary string O(b) where b is the number of binary digits
@@ -40,13 +40,13 @@ public class HuffCode {
     public HuffCode(int frequencies[], Character values[]) {
         this.root = null;
         this.encodedCharacterSet = new String[ASCII_CHAR_COUNT];
-        this.queue = new PriorityQueue(ASCII_CHAR_COUNT);
+        this.queue = new PriorityQueue();
         for (int i=0; i < values.length; i++) {
             if (frequencies[i] != 0) {
                 this.queue.enqueue(new Node(values[i], frequencies[i], null, null));
             }
         }
-        
+
         this.generateHuffTree();
         this.generateBinaryCodes(root, "");
     }
@@ -57,7 +57,7 @@ public class HuffCode {
             return;
         }
 
-        while (this.queue.lastIndex != 0) {
+        while (this.queue.length() != 1) {
             Node left = this.queue.dequeue();
             Node right = this.queue.dequeue();
             this.queue.enqueue(new Node(null, left.frequency + right.frequency, left, right));
